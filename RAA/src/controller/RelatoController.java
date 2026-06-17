@@ -1,6 +1,5 @@
 package controller;
 
-import dao.RelatoDao;
 import model.Relato;
 import model.Aluno;
 import model.CategoriaRelato;
