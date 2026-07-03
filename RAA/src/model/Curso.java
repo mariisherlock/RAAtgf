@@ -35,4 +35,10 @@ public class Curso {
     public String toString() {
         return nome + " - " + (campus != null ? campus.getNome() : "");
     }
+
+
+    public Curso(int id, String nome) {
+        this.id = id;
+        this.nome = nome;
+    }
 }

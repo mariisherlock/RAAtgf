@@ -21,4 +21,10 @@ public class Cidade {
     public void setNome(String nome) {
         this.nome = nome;
     }
+
+
+    public Cidade(int id, String nome) {
+        this.id = id;
+        this.nome = nome; // substitua pelo nome do seu atributo de texto se for diferente
+    }
 }
