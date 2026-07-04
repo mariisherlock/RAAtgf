@@ -1,18 +1,17 @@
 package app;
+
 import view.JanelaAdministrador;
+import javax.swing.SwingUtilities;
 
-import javax.swing.*;
-public class Main{
-public static void main(String[] args) {
+public class Main {
+    public static void main(String[] args) {
 
-    try {
-        UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-    } catch (Exception e) {
-        e.printStackTrace();
+        SwingUtilities.invokeLater(() -> {
+
+            JanelaAdministrador janela = new JanelaAdministrador();
+
+
+            janela.setVisible(true);
+        });
     }
-
-    SwingUtilities.invokeLater(() -> {
-        new JanelaAdministrador().setVisible(true);
-    });
-
-}}
+}
