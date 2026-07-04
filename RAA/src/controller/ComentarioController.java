@@ -31,4 +31,18 @@ public class ComentarioController {
     public List<Comentario> mostrarComentario(int idRelato) {
         return dao.mostrarComentario(idRelato);
     }
+
+    public void atualizarComentario(int idComentario, String novoTexto, boolean anonimo) {
+        Comentario comentario = new Comentario();
+        comentario.setId(idComentario);
+        comentario.setTexto(novoTexto);
+        comentario.setAnonimo(anonimo);
+
+        dao.atualizarComentario(comentario);
+    }
+
+    public void deletarComentario(int idComentario) {
+        dao.deletarComentario(idComentario);
+    }
 }
+

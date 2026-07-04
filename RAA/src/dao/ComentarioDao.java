@@ -1,6 +1,5 @@
 package dao;
 
-
 import model.Comentario;
 import model.Aluno;
 import util.Conexao;
@@ -64,5 +63,47 @@ public class ComentarioDao {
             System.out.println("Erro: " + e.getMessage());
         }
         return comentarios;
+    }
+
+    public void atualizarComentario(Comentario comentario) {
+        String sql = "update comentario set texto = ?, anonimo = ? where id = ?";
+
+        try (Connection conn = Conexao.getConnection();
+             PreparedStatement statement = conn.prepareStatement(sql)
+        ){
+            statement.setString(1, comentario.getTexto());
+            statement.setBoolean(2, comentario.isAnonimo());
+            statement.setInt(3, comentario.getId());
+            int linhasAfetadas = statement.executeUpdate();
+
+            if (linhasAfetadas > 0) {
+                System.out.println("Comentário atualizado!");
+            } else {
+                System.out.println("Comentário não encontrado.");
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Erro: " + e.getMessage());
+        }
+    }
+
+    public void deletarComentario(int idComentario) {
+        String sql = "delete from comentario where id = ?";
+
+        try (Connection conn = Conexao.getConnection();
+             PreparedStatement statement = conn.prepareStatement(sql)
+        ){
+            statement.setInt(1, idComentario);
+            int linhasAfetadas = statement.executeUpdate();
+
+            if (linhasAfetadas > 0) {
+                System.out.println("Comentário removido com sucesso!");
+            } else {
+                System.out.println("Comentário não encontrado.");
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Erro: " + e.getMessage());
+        }
     }
 }

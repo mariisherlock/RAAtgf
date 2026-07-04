@@ -1,6 +1,5 @@
 package controller;
 
-
 import dao.AdministradorDao;
 import model.Administrador;
 
@@ -15,6 +14,23 @@ public class AdministradorController {
 
         dao.cadastrarAdmin(adm);
     }
+    public Administrador consultarAdmin(String nome) {
+        return dao.consultarAdmin(nome);
+    }
+
+    public void atualizarAdmin(int id, String nome, String email) {
+        Administrador adm = new Administrador();
+        adm.setId(id);
+        adm.setNome(nome);
+        adm.setEmail(email);
+
+        dao.atualizarAdmin(adm);
+    }
+
+    public void deletarAdmin(int idUsuario) {
+        dao.deletarAdmin(idUsuario);
+    }
+
     public void validarUsuario(String nome, String novoTipo){
         dao.validarUsuario(nome, novoTipo);
     }

@@ -12,7 +12,6 @@ import java.util.List;
 
 public class RelatoDao {
 
-
     public void criarRelato(Relato relato) {
         String sql = "insert into relato (titulo, descricao, local, data, usuario_anonimo, categoria, status, autor_id) values (?, ?, ?, ?, ?, ?, ?, ?)";
 
@@ -24,7 +23,7 @@ public class RelatoDao {
             statement.setString(3, relato.getLocal());
             statement.setDate(4, java.sql.Date.valueOf(relato.getData()));
             statement.setBoolean(5, relato.isUsuarioAnonimo());
-            statement.setString(6, relato.getCategoria().name()); // Salva o nome do Enum
+            statement.setString(6, relato.getCategoria().name());
             statement.setString(7, relato.getStatus().name());
             statement.setInt(8, relato.getAutor().getId());
             statement.executeUpdate();
@@ -32,15 +31,12 @@ public class RelatoDao {
             System.out.println("Relato criado com sucesso!");
 
         } catch (SQLException e) {
-            System.out.println("Erro ao criar relato: " + e.getMessage());
+            System.out.println("Erro: " + e.getMessage());
         }
     }
-
-
     public List<Relato> mostrarRelatos() {
         List<Relato> relatos = new ArrayList<>();
-
-        String sql = "select r.*, p.nome as nome_autor from relato r inner join pessoa p on r.autor_id = p.id";
+        String sql = "select r.*, u.nome as nome_autor from relato r inner join usuario u on r.autor_id = u.id";
 
         try (Connection conn = Conexao.getConnection();
              PreparedStatement statement = conn.prepareStatement(sql);
@@ -54,27 +50,27 @@ public class RelatoDao {
                 relato.setDescricao(resultSet.getString("descricao"));
                 relato.setLocal(resultSet.getString("local"));
                 relato.setData(resultSet.getDate("data").toLocalDate());
-                relato.setUsuarioAnonimo(resultSet.getBoolean("usuario_anonimo"));
 
+                relato.setUsuarioAnonimo(resultSet.getBoolean("usuario_anonimo"));
 
                 relato.setCategoria(CategoriaRelato.valueOf(resultSet.getString("categoria")));
                 relato.setStatus(StatusRelato.valueOf(resultSet.getString("status")));
 
                 Aluno autor = new Aluno();
                 autor.setId(resultSet.getInt("autor_id"));
+
                 autor.setNome(resultSet.getString("nome_autor"));
                 relato.setAutor(autor);
 
                 relatos.add(relato);
             }
         } catch (SQLException e) {
-            System.out.println("Erro ao mostrar relatos: " + e.getMessage());
+            System.out.println("Erro: " + e.getMessage());
         }
         return relatos;
     }
 
-
-    public void atualizarRelato(Relato relato) {
+    public void atualizarRelato (Relato relato) {
         String sql = "update relato set titulo = ?, descricao = ?, local = ?, data = ?, usuario_anonimo = ?, categoria = ?, status = ? where id = ?";
 
         try (Connection conn = Conexao.getConnection();
@@ -87,30 +83,39 @@ public class RelatoDao {
             statement.setBoolean(5, relato.isUsuarioAnonimo());
             statement.setString(6, relato.getCategoria().name());
             statement.setString(7, relato.getStatus().name());
-            statement.setInt(8, relato.getId());
-            statement.executeUpdate();
 
-            System.out.println("Relato atualizado com sucesso!");
+            statement.setInt(8, relato.getId());
+
+            int linhasAfetadas = statement.executeUpdate();
+
+            if (linhasAfetadas > 0) {
+                System.out.println("Relato atualizado com sucesso!");
+            } else {
+                System.out.println("Relato não encontrado.");
+            }
 
         } catch (SQLException e) {
-            System.out.println("Erro ao atualizar relato: " + e.getMessage());
+            System.out.println("Erro: " + e.getMessage());
         }
     }
 
-
-    public void excluirRelato(int id) {
+    public void deletarRelato(int id) {
         String sql = "delete from relato where id = ?";
 
         try (Connection conn = Conexao.getConnection();
              PreparedStatement statement = conn.prepareStatement(sql)
         ){
             statement.setInt(1, id);
-            statement.executeUpdate();
+            int linhasAfetadas = statement.executeUpdate();
 
-            System.out.println("Relato excluído com sucesso!");
+            if (linhasAfetadas > 0) {
+                System.out.println("Relato removido com sucesso!");
+            } else {
+                System.out.println("Relato não encontrado.");
+            }
 
         } catch (SQLException e) {
-            System.out.println("Erro ao excluir relato: " + e.getMessage());
+            System.out.println("Erro: " + e.getMessage());
         }
     }
 }
