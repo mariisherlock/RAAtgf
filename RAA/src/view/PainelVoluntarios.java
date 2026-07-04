@@ -80,14 +80,14 @@ public class PainelVoluntarios extends JPanel {
 
         JButton btnAprovar = new JButton("Aprovar Voluntário");
         btnAprovar.setFont(new Font("Arial", Font.BOLD, 13));
-        btnAprovar.setBackground(new Color(40, 167, 69)); // Verde
+        btnAprovar.setBackground(new Color(40, 167, 69));
         btnAprovar.setForeground(Color.WHITE);
         btnAprovar.setPreferredSize(new Dimension(170, 38));
         btnAprovar.setFocusPainted(false);
 
         JButton btnReprovar = new JButton("Reprovar Inscrição");
         btnReprovar.setFont(new Font("Arial", Font.BOLD, 13));
-        btnReprovar.setBackground(new Color(220, 53, 69)); // Vermelho
+        btnReprovar.setBackground(new Color(220, 53, 69));
         btnReprovar.setForeground(Color.WHITE);
         btnReprovar.setPreferredSize(new Dimension(170, 38));
         btnReprovar.setFocusPainted(false);
