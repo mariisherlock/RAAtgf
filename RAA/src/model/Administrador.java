@@ -19,7 +19,7 @@ public class Administrador extends Usuario {
         return tipo;
     }
 
-    public void setTipo(String tipo) {
+    public void setTipo(TipoUsuario tipo) {
         this.tipo = tipo;
     }
 }
