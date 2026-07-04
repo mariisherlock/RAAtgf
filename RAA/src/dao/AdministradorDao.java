@@ -4,6 +4,7 @@ import model.Administrador;
 import util.Conexao;
 import model.TipoUsuario;
 
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -12,7 +13,7 @@ import java.sql.ResultSet;
 public class AdministradorDao {
 
     public void cadastrarAdmin(Administrador administrador) {
-        administrador.setTipo(TipoUsuario.ADMINISTRADOR);
+        administrador.setTipo(TipoUsuario.ADMINISTRADOR.name());
 
         String sqlUsuario = "insert into usuario (nome, email, tipo, senha) values (?, ?, ?, ?)";
         String sqlAdmin = "insert into administrador (usuario_id) values (?)";

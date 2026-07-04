@@ -12,7 +12,7 @@ import java.sql.SQLException;
 public class VoluntarioDao {
 
     public void cadastrarVoluntario(Voluntario voluntario) {
-        voluntario.setTipo(TipoUsuario.VOLUNTARIO);
+        voluntario.setTipo(TipoUsuario.VOLUNTARIO.name());
 
         String sqlUsuario = "insert into usuario (nome, email, tipo, senha) values (?, ?, ?, ?)";
         String sqlVoluntario = "insert into voluntario (usuario_id, contato) values (?, ?)";

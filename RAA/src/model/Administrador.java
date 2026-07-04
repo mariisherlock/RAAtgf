@@ -1,7 +1,7 @@
 package model;
 
 public class Administrador extends Usuario {
-    private String tipo;
+
     public Administrador() {}
 
     public Administrador(String nome, String email, String senha) {
@@ -15,11 +15,7 @@ public class Administrador extends Usuario {
     public void cadastrarVoluntario(){}
     public void removerRelato(){}
     public void analisarRelato(){}
-    public String getTipo() {
-        return tipo;
-    }
 
-    public void setTipo(TipoUsuario tipo) {
-        this.tipo = tipo;
-    }
+
+
 }
