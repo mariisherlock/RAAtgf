@@ -13,6 +13,7 @@ public class Relato {
     private StatusRelato   status;
     private Aluno autor;
 
+
     public Relato() {}
 
     public void mostrarRelato() {}

@@ -22,4 +22,7 @@ public class Voluntario extends Usuario {
     public void   setContato(String contato) {
         this.contato = contato;
     }
+
+    public void setTipo(String voluntario) {
+    }
 }

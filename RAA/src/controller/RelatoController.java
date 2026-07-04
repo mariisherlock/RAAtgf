@@ -1,5 +1,6 @@
 package controller;
 
+import dao.RelatoDao;
 import model.Relato;
 import model.Aluno;
 import model.CategoriaRelato;
@@ -11,14 +12,15 @@ import java.util.List;
 public class RelatoController {
     private RelatoDao dao = new RelatoDao();
 
+
     public void criarRelato(String titulo, String descricao, String local, boolean anonimo, String categoria, int idAutor) {
         Relato relato = new Relato();
         relato.setTitulo(titulo);
         relato.setDescricao(descricao);
         relato.setLocal(local);
-
         relato.setData(LocalDate.now());
         relato.setUsuarioAnonimo(anonimo);
+
 
         relato.setCategoria(CategoriaRelato.valueOf(categoria.toUpperCase()));
         relato.setStatus(StatusRelato.PENDENTE);
@@ -29,7 +31,30 @@ public class RelatoController {
 
         dao.criarRelato(relato);
     }
+
+
     public List<Relato> mostrarRelatos() {
         return dao.mostrarRelatos();
+    }
+
+
+    public void atualizarRelato(int idRelato, String titulo, String descricao, String local, boolean anonimo, String categoria, String statusNome) {
+        Relato relato = new Relato();
+        relato.setId(idRelato);
+        relato.setTitulo(titulo);
+        relato.setDescricao(descricao);
+        relato.setLocal(local);
+        relato.setData(LocalDate.now());
+        relato.setUsuarioAnonimo(anonimo);
+
+        relato.setCategoria(CategoriaRelato.valueOf(categoria.toUpperCase()));
+        relato.setStatus(StatusRelato.valueOf(statusNome.toUpperCase()));
+
+        dao.atualizarRelato(relato);
+    }
+
+
+    public void excluirRelato(int idRelato) {
+        dao.excluirRelato(idRelato);
     }
 }

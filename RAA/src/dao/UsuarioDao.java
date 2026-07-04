@@ -34,10 +34,10 @@ public class UsuarioDao {
             JOptionPane.showMessageDialog(null, "Erro ao tentar fazer login: " + e.getMessage());
         }
 
-        return usuarioLogado; // Retorna nulo se o email ou senha estiverem errados
+        return usuarioLogado;
     }
 
-    public void inserir(Usuario usuario) {
+    public int inserir(Usuario usuario) {
         String sql = "INSERT INTO usuario (nome, email, senha) VALUES (?, ?, ?)";
 
         try (Connection conn = Conexao.getConnection();
@@ -55,6 +55,7 @@ public class UsuarioDao {
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Erro ao cadastrar usuário: " + e.getMessage());
         }
+        return 0;
     }
 
     public void deletar(int id) {

@@ -11,11 +11,12 @@ public class AdministradorDao {
     private UsuarioDao usuarioDao = new UsuarioDao();
 
     public void cadastrarAdmin(Administrador administrador) {
-        administrador.setTipo(tipo.ADMINISTRADOR);
+
+        administrador.setTipo("ADMINISTRADOR");
 
         int idUsuario = usuarioDao.inserir(administrador);
 
-        if (idUsuario>0){
+        if (idUsuario > 0){
             String sql = "insert into administrador (usuario_id) values (?)";
 
             try (Connection conn = Conexao.getConnection();
@@ -27,9 +28,9 @@ public class AdministradorDao {
                 System.out.println("Administrador cadastrado com sucesso!");
 
             } catch (SQLException e){
-                System.out.println("Erro: "+e.getMessage());
+                System.out.println("Erro: " + e.getMessage());
             }
-        }else {
+        } else {
             System.out.println("Nao foi possivel cadastrar o administrador");
         }
     }
