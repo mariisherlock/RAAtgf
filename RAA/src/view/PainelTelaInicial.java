@@ -159,7 +159,7 @@ public class PainelTelaInicial extends JPanel {
         btnApagarRelato.addActionListener(e -> {
             int resposta = JOptionPane.showConfirmDialog(janelaPai, "Deseja mesmo apagar este relato permanentemente do sistema?", "Moderação de Relato", JOptionPane.YES_NO_OPTION);
             if (resposta == JOptionPane.YES_OPTION) {
-                relatoController.excluirRelato(relato.getId());
+                relatoController.deletarRelato(relato.getId());
                 carregarFeed();
                 JOptionPane.showMessageDialog(janelaPai, "Relato removido com sucesso!");
             }

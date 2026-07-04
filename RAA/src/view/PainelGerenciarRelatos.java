@@ -121,7 +121,7 @@ public class PainelGerenciarRelatos extends JPanel {
             int idRelato = (int) table.getValueAt(linhaSelecionada, 0);
             int resposta = JOptionPane.showConfirmDialog(pai, "Apagar permanentemente o relato #" + idRelato + "?", "Confirmar Exclusão", JOptionPane.YES_NO_OPTION);
             if (resposta == JOptionPane.YES_OPTION) {
-                relatoController.excluirRelato(idRelato);
+                relatoController.deletarRelato(idRelato);
                 atualizarTabelaCompleta();
                 JOptionPane.showMessageDialog(pai, "Relato excluído com sucesso!");
             }
