@@ -138,7 +138,7 @@ public class PainelVoluntarios extends JPanel {
             if (resposta == JOptionPane.YES_OPTION) {
 
 
-                //conn.deletarUsuario(idVoluntario);
+                //add dps conn.deletarUsuario(idVoluntario);
 
 
                 ((DefaultTableModel) tablePendentes.getModel()).removeRow(linhaSelecionada);
