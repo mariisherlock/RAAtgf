@@ -12,7 +12,19 @@ public class UsuarioDao {
 
 
     public Usuario autenticar(String email, String senha) {
-        String sql = "SELECT id, nome, email, senha FROM usuario WHERE email = ? AND senha = ?";
+        String sql = """
+    SELECT
+        p.id,
+        p.nome,
+        u.email,
+        u.senha,
+        u.tipo
+    FROM usuario u
+    INNER JOIN pessoa p
+        ON p.id = u.pessoa_id
+    WHERE u.email = ?
+      AND u.senha = ?
+""";
         Usuario usuarioLogado = null;
 
         try (Connection conn = Conexao.getConnection();
@@ -28,6 +40,7 @@ public class UsuarioDao {
                     usuarioLogado.setNome(rs.getString("nome"));
                     usuarioLogado.setEmail(rs.getString("email"));
                     usuarioLogado.setSenha(rs.getString("senha"));
+                    usuarioLogado.setTipo(rs.getString("tipo"));
                 }
             }
         } catch (SQLException e) {

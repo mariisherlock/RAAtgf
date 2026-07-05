@@ -2,6 +2,7 @@ package model;
 
 public class Usuario extends Pessoa {
 
+    private int id;
     private String email;
     private String senha;
     private String tipo;
@@ -20,7 +21,13 @@ public class Usuario extends Pessoa {
     public void criarConta() {
 
     }
+    public int getId() {
+        return id;
+    }
 
+    public void setId(int id) {
+        this.id = id;
+    }
     public String getEmail() {
         return email;
     }
@@ -44,4 +51,5 @@ public class Usuario extends Pessoa {
     public void setTipo(String tipo) {
         this.tipo = tipo;
     }
+
 }

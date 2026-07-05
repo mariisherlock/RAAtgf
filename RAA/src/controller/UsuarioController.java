@@ -14,21 +14,30 @@ public class UsuarioController {
         this.usuarioDao = new UsuarioDao();
     }
 
-    public boolean fazerLogin(String email, String senha) {
-        if (email == null || email.trim().isEmpty() || senha == null || senha.trim().isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Por favor, preencha o e-mail e a senha.", "Aviso", JOptionPane.WARNING_MESSAGE);
-            return false;
+    public Usuario fazerLogin(String email, String senha) {
+
+        if (email == null || email.trim().isEmpty()
+                || senha == null || senha.trim().isEmpty()) {
+
+            JOptionPane.showMessageDialog(
+                    null,
+                    "Por favor, preencha o e-mail e a senha.",
+                    "Aviso",
+                    JOptionPane.WARNING_MESSAGE
+            );
+            return null;
         }
 
         Usuario usuarioLogado = usuarioDao.autenticar(email, senha);
-
-        if (usuarioLogado != null) {
-            JOptionPane.showMessageDialog(null, "Bem-vindo(a), " + usuarioLogado.getNome() + "!");
-            return true; // A tela Swing recebe true e libera o acesso ao sistema
-        } else {
-            JOptionPane.showMessageDialog(null, "E-mail ou senha incorretos.", "Falha no Login", JOptionPane.ERROR_MESSAGE);
-            return false; // A tela Swing recebe false e não deixa entrar
+        if (usuarioLogado == null) {
+            JOptionPane.showMessageDialog(
+                    null,
+                    "E-mail ou senha incorretos.",
+                    "Falha no Login",
+                    JOptionPane.ERROR_MESSAGE
+            );
         }
+        return usuarioLogado;
     }
 
     public void inserirUsuario(String nome, String email, String senha) {
