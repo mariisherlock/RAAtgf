@@ -27,4 +27,9 @@ public class Cidade {
         this.id = id;
         this.nome = nome; // substitua pelo nome do seu atributo de texto se for diferente
     }
+
+    @Override
+    public String toString() {
+        return nome;
+    }
 }

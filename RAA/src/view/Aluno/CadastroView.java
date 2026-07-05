@@ -45,6 +45,8 @@ public class CadastroView extends JFrame {
         configurarJanela();
         inicializarComponentes();
         montarTela();
+        carregarCidades();
+        carregarCampi();
         configurarEventos();
 
 
@@ -322,6 +324,26 @@ public class CadastroView extends JFrame {
             }
 
         });
+
+    }
+
+    private void carregarCidades() {
+
+        cbCidade.removeAllItems();
+
+        for (Cidade cidade : cidadeController.listarCidades()) {
+            cbCidade.addItem(cidade);
+        }
+
+    }
+
+    private void carregarCampi() {
+
+        cbCampus.removeAllItems();
+
+        for (Campus campus : campusController.listarCampi()) {
+            cbCampus.addItem(campus);
+        }
 
     }
 
