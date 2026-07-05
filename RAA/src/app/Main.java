@@ -1,7 +1,9 @@
 package app;
 
+import model.Usuario;
+import view.HomeView;
+
 import javax.swing.SwingUtilities;
-import view.LoginView;
 
 public class Main {
 
@@ -9,7 +11,15 @@ public class Main {
 
         SwingUtilities.invokeLater(() -> {
 
-            new LoginView().setVisible(true);
+            Usuario usuario = new Usuario();
+
+            usuario.setNome("Almerindo");
+
+            usuario.setEmail("almerindo@email.com");
+
+            usuario.setTipo("ALUNO");
+
+            new HomeView(usuario).setVisible(true);
 
         });
 

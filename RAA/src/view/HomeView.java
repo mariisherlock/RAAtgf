@@ -19,6 +19,7 @@ public class HomeView extends JFrame {
     private JButton btnMeusRelatos;
     private JButton btnEstatisticas;
     private JButton btnSair;
+    private JButton btnChat;
 
     public HomeView(Usuario usuario){
 
@@ -78,6 +79,8 @@ public class HomeView extends JFrame {
 
         btnSair = new JButton("Sair");
 
+        btnChat = new JButton("Conversar");
+
         JButton[] botoes = {
 
                 btnNovoRelato,
@@ -87,6 +90,8 @@ public class HomeView extends JFrame {
                 btnMeusRelatos,
 
                 btnEstatisticas,
+
+                btnChat,
 
                 btnSair
 
@@ -147,6 +152,8 @@ public class HomeView extends JFrame {
 
                 btnEstatisticas,
 
+                btnChat,
+
                 btnSair
 
         };
@@ -182,6 +189,13 @@ public class HomeView extends JFrame {
 
         btnEstatisticas.addActionListener(e ->
                 trocarTela(new PainelEstatisticas(usuario), btnEstatisticas));
+
+        btnChat.addActionListener(e ->
+                trocarTela(
+                        new PainelChatVoluntario(),
+                        btnChat
+                )
+        );
 
         btnSair.addActionListener(e -> {
 
