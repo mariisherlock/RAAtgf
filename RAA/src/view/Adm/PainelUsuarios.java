@@ -1,13 +1,9 @@
-package view;
-
-import controller.UsuarioController;
-import model.Usuario;
+package view.Adm;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
-import java.util.List;
 
 public class PainelUsuarios extends JPanel {
 

@@ -1,7 +1,6 @@
-package view;
+package view.Adm;
 
 import controller.UsuarioController;
-import dao.UsuarioDao;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;

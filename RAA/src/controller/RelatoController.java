@@ -30,10 +30,11 @@ public class RelatoController {
 
         dao.criarRelato(relato);
     }
-    public List<Relato> mostrarRelatos() {
 
+    public List<Relato> mostrarRelatos() {
         return dao.mostrarRelatos();
     }
+
     public void atualizarRelato(int id, String titulo, String descricao, String local, boolean anonimo, String categoria, String status) {
         Relato relato = new Relato();
         relato.setId(id);
@@ -50,5 +51,11 @@ public class RelatoController {
 
     public void deletarRelato(int id) {
         dao.deletarRelato(id);
+    }
+
+    // --- NOVA FUNÇÃO DE MODERAÇÃO ADICIONADA ---
+    public void analisarRelato(int id, String novoStatus) {
+        // Envia a ordem direto para o DAO processar a atualização no banco de dados
+        dao.analisarRelato(id, novoStatus.toUpperCase());
     }
 }

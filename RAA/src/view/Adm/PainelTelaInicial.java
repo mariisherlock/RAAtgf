@@ -1,4 +1,4 @@
-package view;
+package view.Adm;
 
 import controller.RelatoController;
 import model.Relato;

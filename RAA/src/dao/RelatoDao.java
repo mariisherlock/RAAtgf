@@ -34,6 +34,7 @@ public class RelatoDao {
             System.out.println("Erro: " + e.getMessage());
         }
     }
+
     public List<Relato> mostrarRelatos() {
         List<Relato> relatos = new ArrayList<>();
         String sql = "select r.*, u.nome as nome_autor from relato r inner join usuario u on r.autor_id = u.id";
@@ -89,7 +90,7 @@ public class RelatoDao {
             int linhasAfetadas = statement.executeUpdate();
 
             if (linhasAfetadas > 0) {
-                System.out.println("Relato atualizado com sucesso!");
+                System.out.println("Relato updated com sucesso!");
             } else {
                 System.out.println("Relato não encontrado.");
             }
@@ -116,6 +117,29 @@ public class RelatoDao {
 
         } catch (SQLException e) {
             System.out.println("Erro: " + e.getMessage());
+        }
+    }
+
+    // --- NOVA FUNÇÃO DE MODERAÇÃO ADICIONADA ---
+    public void analisarRelato(int id, String novoStatus) {
+        String sql = "update relato set status = ? where id = ?";
+
+        try (Connection conn = Conexao.getConnection();
+             PreparedStatement statement = conn.prepareStatement(sql)
+        ) {
+            statement.setString(1, novoStatus);
+            statement.setInt(2, id);
+
+            int linhasAfetadas = statement.executeUpdate();
+
+            if (linhasAfetadas > 0) {
+                System.out.println("Status do relato #" + id + " atualizado para: " + novoStatus);
+            } else {
+                System.out.println("Relato #" + id + " não encontrado para atualização.");
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Erro ao atualizar status do relato: " + e.getMessage());
         }
     }
 }

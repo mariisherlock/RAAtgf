@@ -1,4 +1,4 @@
-package view;
+package view.Adm;
 
 import controller.RelatoController;
 import model.Relato;
@@ -28,54 +28,84 @@ public class PainelGerenciarRelatos extends JPanel {
         Color roxoSistema = new Color(75, 40, 130);
 
 
-        JPanel headerPanel = new JPanel(new BorderLayout());
-        headerPanel.setBackground(Color.WHITE);
-        headerPanel.setBorder(new EmptyBorder(0, 0, 20, 0));
+        JPanel topPanel = new JPanel(new GridBagLayout());
+        topPanel.setBackground(Color.WHITE);
+        topPanel.setBorder(new EmptyBorder(0, 0, 15, 0));
+        GridBagConstraints gbc = new GridBagConstraints();
+
 
         JLabel lblTitle = new JLabel("Gerenciamento de Relatos Recebidos");
         lblTitle.setFont(new Font("Arial", Font.BOLD, 22));
+        gbc.gridx = 0; gbc.gridy = 0;
+        gbc.weightx = 1.0;
+        gbc.anchor = GridBagConstraints.WEST;
+        gbc.insets = new Insets(0, 0, 15, 0);
+        topPanel.add(lblTitle, gbc);
 
-        JPanel açõesPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-        açõesPanel.setBackground(Color.WHITE);
 
-        JButton btnLer = new JButton("Ler Relato Selecionado");
-        btnLer.setBackground(Color.WHITE);
-        btnLer.setForeground(roxoSistema);
-        btnLer.setBorder(BorderFactory.createLineBorder(roxoSistema, 1));
-        btnLer.setPreferredSize(new Dimension(180, 35));
-        btnLer.setFocusPainted(false);
+        JPanel moderaçãoPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 10, 0));
+        moderaçãoPanel.setBackground(Color.WHITE);
+
+        JButton btnAprovar = new JButton("Aprovar Relato");
+        btnAprovar.setBackground(Color.WHITE);
+        btnAprovar.setForeground(new Color(40, 167, 69));
+        btnAprovar.setBorder(BorderFactory.createLineBorder(new Color(40, 167, 69), 1));
+        btnAprovar.setPreferredSize(new Dimension(130, 35));
+        btnAprovar.setFocusPainted(false);
 
         JButton btnExcluir = new JButton("Apagar Relato");
         btnExcluir.setBackground(Color.WHITE);
         btnExcluir.setForeground(new Color(210, 50, 50));
         btnExcluir.setBorder(BorderFactory.createLineBorder(new Color(210, 50, 50), 1));
-        btnExcluir.setPreferredSize(new Dimension(130, 35));
+        btnExcluir.setPreferredSize(new Dimension(120, 35));
         btnExcluir.setFocusPainted(false);
 
-        açõesPanel.add(btnLer);
-        açõesPanel.add(btnExcluir);
+        moderaçãoPanel.add(btnAprovar);
+        moderaçãoPanel.add(btnExcluir);
 
-        headerPanel.add(lblTitle, BorderLayout.WEST);
-        headerPanel.add(açõesPanel, BorderLayout.EAST);
+        gbc.gridx = 1; gbc.gridy = 0;
+        gbc.weightx = 0.0;
+        gbc.anchor = GridBagConstraints.EAST;
+        topPanel.add(moderaçãoPanel, gbc);
 
 
-        JPanel searchPanel = new JPanel(new BorderLayout());
-        searchPanel.setBackground(Color.WHITE);
-        searchPanel.setBorder(new EmptyBorder(0, 0, 15, 0));
+        JPanel linhaInferiorEsquerda = new JPanel(new FlowLayout(FlowLayout.LEFT, 15, 0));
+        linhaInferiorEsquerda.setBackground(Color.WHITE);
 
         txtSearch = new JTextField("Buscar relato por título...");
         txtSearch.setPreferredSize(new Dimension(300, 35));
-        searchPanel.add(txtSearch, BorderLayout.WEST);
+
+        txtSearch.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                if (txtSearch.getText().equals("Buscar relato por título...")) txtSearch.setText("");
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                if (txtSearch.getText().isEmpty()) txtSearch.setText("Buscar relato por título...");
+            }
+        });
 
         txtSearch.addKeyListener(new KeyAdapter() {
             @Override
             public void keyReleased(KeyEvent e) { filtrarRelatos(txtSearch.getText()); }
         });
 
-        JPanel topPanel = new JPanel(new BorderLayout());
-        topPanel.setBackground(Color.WHITE);
-        topPanel.add(headerPanel, BorderLayout.NORTH);
-        topPanel.add(searchPanel, BorderLayout.SOUTH);
+
+        JButton btnLer = new JButton("Ler Relato Selecionado");
+        btnLer.setBackground(Color.WHITE);
+        btnLer.setForeground(roxoSistema);
+        btnLer.setBorder(BorderFactory.createLineBorder(roxoSistema, 1));
+        btnLer.setPreferredSize(new Dimension(170, 35));
+        btnLer.setFocusPainted(false);
+
+        linhaInferiorEsquerda.add(txtSearch);
+        linhaInferiorEsquerda.add(btnLer);
+
+        gbc.gridx = 0; gbc.gridy = 1;
+        gbc.gridwidth = 2;
+        gbc.weightx = 1.0;
+        gbc.anchor = GridBagConstraints.WEST;
+        gbc.insets = new Insets(0, 0, 0, 0);
+        topPanel.add(linhaInferiorEsquerda, gbc);
 
 
         String[] colunas = {"ID", "Título do Relato", "Categoria", "Local", "Status"};
@@ -109,6 +139,21 @@ public class PainelGerenciarRelatos extends JPanel {
             if (relato != null) {
                 String mensagem = "Título: " + relato.getTitulo() + "\nLocal: " + relato.getLocal() + "\nDescrição:\n" + relato.getDescricao();
                 JOptionPane.showMessageDialog(pai, new JScrollPane(new JTextArea(mensagem)), "Visualizar Relato #" + idRelato, JOptionPane.INFORMATION_MESSAGE);
+            }
+        });
+
+        btnAprovar.addActionListener(e -> {
+            int líneaSelecionada = table.getSelectedRow();
+            if (líneaSelecionada == -1) {
+                JOptionPane.showMessageDialog(pai, "Selecione um relato para aprovar!");
+                return;
+            }
+            int idRelato = (int) table.getValueAt(líneaSelecionada, 0);
+            int resposta = JOptionPane.showConfirmDialog(pai, "Deseja aprovar o relato #" + idRelato + "?", "Aprovar Relato", JOptionPane.YES_NO_OPTION);
+            if (resposta == JOptionPane.YES_OPTION) {
+                relatoController.analisarRelato(idRelato, "APROVADO");
+                atualizarTabelaCompleta();
+                JOptionPane.showMessageDialog(pai, "Relato aprovado com sucesso!");
             }
         });
 
