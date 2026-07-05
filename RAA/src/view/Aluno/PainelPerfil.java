@@ -1,4 +1,4 @@
-package view;
+package view.Aluno;
 
 import model.Usuario;
 

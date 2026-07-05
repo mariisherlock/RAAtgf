@@ -2,10 +2,9 @@ package app;
 
 import model.Usuario;
 import view.Adm.JanelaAdministrador;
-import view.HomeView;
+import view.Aluno.HomeView;
 
 import javax.swing.SwingUtilities;
-import java.sql.Connection;
 
 public class Main {
     public static void main(String[] args) {
