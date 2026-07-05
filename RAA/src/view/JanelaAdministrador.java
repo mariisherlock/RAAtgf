@@ -25,19 +25,13 @@ public class JanelaAdministrador extends JFrame {
         sidebar.setPreferredSize(new Dimension(200, 0));
         sidebar.setBorder(new EmptyBorder(20, 10, 20, 10));
 
-        Icon iconeHome = redimensionarIcone("src/imagens/nome_da_imagem_home.png");
-        Icon iconeRelatos = redimensionarIcone("src/imagens/nome_da_imagem_relatos.png");
-        Icon iconeTipos = redimensionarIcone("src/imagens/nome_da_imagem_tipos.png");
-        Icon iconeUsuarios = redimensionarIcone("src/imagens/nome_da_imagem_usuarios.png"); // Ícone de Usuários
-        Icon iconeVoluntarios = redimensionarIcone("src/imagens/nome_da_imagem_voluntarios.png"); // Ícone de Voluntários
-        Icon iconeConfig = redimensionarIcone("src/imagens/nome_da_imagem_config.png");
 
-        btnInicio = new JButton("Tela Inicial", iconeHome);
-        btnRelatos = new JButton("Relatos", iconeRelatos);
-        btnTipos = new JButton("Tipos de Relatos", iconeTipos);
-        btnUsuarios = new JButton("Usuários", iconeUsuarios); // Mantido!
-        btnVoluntarios = new JButton("Voluntários", iconeVoluntarios); // Adicionado!
-        btnConfig = new JButton("Configurações", iconeConfig);
+        btnInicio = new JButton("Tela Inicial");
+        btnRelatos = new JButton("Relatos");
+        btnTipos = new JButton("Tipos de Relatos");
+        btnUsuarios = new JButton("Usuários");
+        btnVoluntarios = new JButton("Voluntários");
+        btnConfig = new JButton("Configurações");
 
 
 
@@ -68,8 +62,8 @@ public class JanelaAdministrador extends JFrame {
         btnInicio.addActionListener(e -> trocarTela(new PainelTelaInicial(this), btnInicio));
         btnRelatos.addActionListener(e -> trocarTela(new PainelGerenciarRelatos(this), btnRelatos));
         btnTipos.addActionListener(e -> trocarTela(new PainelTiposdeRelato(), btnTipos));
-        btnUsuarios.addActionListener(e -> trocarTela(new PainelUsuarios(this), btnUsuarios)); // Abre a tela de usuários
-        btnVoluntarios.addActionListener(e -> trocarTela(new PainelVoluntarios(this), btnVoluntarios)); // Abre a tela de voluntários
+        btnUsuarios.addActionListener(e -> trocarTela(new PainelUsuarios(this), btnUsuarios));
+        btnVoluntarios.addActionListener(e -> trocarTela(new PainelVoluntarios(this), btnVoluntarios));
         btnConfig.addActionListener(e -> trocarTela(new PainelConfiguracoes(), btnConfig));
 
         trocarTela(new PainelTelaInicial(this), btnInicio);

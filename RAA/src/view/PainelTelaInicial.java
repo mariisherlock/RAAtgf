@@ -76,10 +76,10 @@ public class PainelTelaInicial extends JPanel {
         JPanel card = new JPanel(new BorderLayout());
         card.setBackground(Color.WHITE);
         card.setBorder(BorderFactory.createCompoundBorder(
-                BorderFactory.createLineBorder(new Color(220, 220, 230), 1, true), // Borda arredondada suave
-                new EmptyBorder(15, 20, 15, 20) // Espaçamento interno
+                BorderFactory.createLineBorder(new Color(220, 220, 230), 1, true),
+                new EmptyBorder(15, 20, 15, 20)
         ));
-        card.setMaximumSize(new Dimension(800, 220)); // Limita a largura do post no meio da tela
+        card.setMaximumSize(new Dimension(800, 220));
         card.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         Color roxoSistema = new Color(75, 40, 130);
@@ -159,7 +159,7 @@ public class PainelTelaInicial extends JPanel {
         btnApagarRelato.addActionListener(e -> {
             int resposta = JOptionPane.showConfirmDialog(janelaPai, "Deseja mesmo apagar este relato permanentemente do sistema?", "Moderação de Relato", JOptionPane.YES_NO_OPTION);
             if (resposta == JOptionPane.YES_OPTION) {
-                relatoController.excluirRelato(relato.getId());
+                relatoController.deletarRelato(relato.getId());
                 carregarFeed();
                 JOptionPane.showMessageDialog(janelaPai, "Relato removido com sucesso!");
             }
