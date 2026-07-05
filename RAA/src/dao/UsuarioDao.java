@@ -13,60 +13,88 @@ public class UsuarioDao {
 
     public Usuario autenticar(String email, String senha) {
         String sql = """
-    SELECT
-        p.id,
-        p.nome,
-        u.email,
-        u.senha,
-        u.tipo
-    FROM usuario u
-    INNER JOIN pessoa p
-        ON p.id = u.pessoa_id
-    WHERE u.email = ?
-      AND u.senha = ?
-""";
-        Usuario usuarioLogado = null;
-
+            SELECT
+                p.id,
+                p.nome,
+                u.email,
+                u.senha,
+                u.tipo
+            FROM usuario u
+            INNER JOIN pessoa p
+                ON p.id = u.pessoa_id
+            WHERE u.email = ?
+              AND u.senha = ?
+            """;
+        Usuario usuario = null;
         try (Connection conn = Conexao.getConnection();
-             PreparedStatement statement = conn.prepareStatement(sql)) {
-
-            statement.setString(1, email);
-            statement.setString(2, senha);
-
-            try (ResultSet rs = statement.executeQuery()) {
-                if (rs.next()) {
-                    usuarioLogado = new Usuario();
-                    usuarioLogado.setId(rs.getInt("id"));
-                    usuarioLogado.setNome(rs.getString("nome"));
-                    usuarioLogado.setEmail(rs.getString("email"));
-                    usuarioLogado.setSenha(rs.getString("senha"));
-                    usuarioLogado.setTipo(rs.getString("tipo"));
-                }
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, email);
+            ps.setString(2, senha);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                usuario = new Usuario();
+                usuario.setId(rs.getInt("id"));
+                usuario.setNome(rs.getString("nome"));
+                usuario.setEmail(rs.getString("email"));
+                usuario.setSenha(rs.getString("senha"));
+                usuario.setTipo(rs.getString("tipo"));
             }
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Erro ao tentar fazer login: " + e.getMessage());
+            JOptionPane.showMessageDialog(
+                    null,
+                    "Erro ao realizar login:\n" + e.getMessage()
+            );
         }
-
-        return usuarioLogado;
+        return usuario;
     }
 
     public int inserir(Usuario usuario) {
-        String sql = "INSERT INTO usuario (nome, email, senha) VALUES (?, ?, ?)";
 
-        try (Connection conn = Conexao.getConnection();
-             PreparedStatement statement = conn.prepareStatement(sql)) {
+        String sqlPessoa = "INSERT INTO pessoa(nome) VALUES(?)";
 
-            statement.setString(1, usuario.getNome());
-            statement.setString(2, usuario.getEmail());
-            statement.setString(3, usuario.getSenha());
-
-            statement.executeUpdate();
-            JOptionPane.showMessageDialog(null, "Usuário cadastrado com sucesso!");
-
+        String sqlUsuario = """
+            INSERT INTO usuario
+            (pessoa_id,email,senha,tipo)
+            VALUES(?,?,?,?)
+            """;
+        try (Connection conn = Conexao.getConnection()) {
+            conn.setAutoCommit(false);
+            int pessoaId;
+            try (PreparedStatement psPessoa =
+                         conn.prepareStatement(sqlPessoa, Statement.RETURN_GENERATED_KEYS)) {
+                psPessoa.setString(1, usuario.getNome());
+                psPessoa.executeUpdate();
+                ResultSet rs = psPessoa.getGeneratedKeys();
+                if (!rs.next()) {
+                    conn.rollback();
+                    return 0;
+                }
+                pessoaId = rs.getInt(1);
+            }
+            try (PreparedStatement psUsuario =
+                         conn.prepareStatement(sqlUsuario)) {
+                psUsuario.setInt(1, pessoaId);
+                psUsuario.setString(2, usuario.getEmail());
+                psUsuario.setString(3, usuario.getSenha());
+                psUsuario.setString(4, usuario.getTipo());
+                psUsuario.executeUpdate();
+            }
+            conn.commit();
+            JOptionPane.showMessageDialog(
+                    null,
+                    "Usuário cadastrado com sucesso!"
+            );
+            return pessoaId;
         } catch (SQLIntegrityConstraintViolationException e) {
-            JOptionPane.showMessageDialog(null, "Já existe um usuário cadastrado com este e-mail.");
+            JOptionPane.showMessageDialog(
+                    null,
+                    "Já existe um usuário com esse e-mail."
+            );
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Erro ao cadastrar usuário: " + e.getMessage());
+            JOptionPane.showMessageDialog(
+                    null,
+                    "Erro ao cadastrar usuário:\n" + e.getMessage()
+            );
         }
         return 0;
     }
