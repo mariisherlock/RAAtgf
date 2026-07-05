@@ -12,6 +12,8 @@ public class PainelNovoRelato extends JPanel {
 
     private JPanel painelFeed;
 
+    private JComboBox<String> cbTipoRelato;
+
     public PainelNovoRelato() {
 
         setLayout(new BorderLayout());
@@ -57,6 +59,34 @@ public class PainelNovoRelato extends JPanel {
         topo.add(Box.createVerticalStrut(20));
 
         txtRelato = new JTextArea(5,40);
+
+        JLabel lblTipo = new JLabel("Tipo do Relato");
+
+        lblTipo.setFont(new Font("Arial", Font.BOLD, 15));
+
+        topo.add(lblTipo);
+
+        topo.add(Box.createVerticalStrut(8));
+
+        cbTipoRelato = new JComboBox<>(new String[]{
+
+                "ASSÉDIO MORAL",
+
+                "ASSÉDIO SEXUAL",
+
+                "DISCRIMINAÇÃO",
+
+                "OPRESSÃO",
+
+                "OUTRO"
+
+        });
+
+        cbTipoRelato.setMaximumSize(new Dimension(Integer.MAX_VALUE,35));
+
+        topo.add(cbTipoRelato);
+
+        topo.add(Box.createVerticalStrut(20));
 
         txtRelato.setLineWrap(true);
 
@@ -128,6 +158,8 @@ public class PainelNovoRelato extends JPanel {
 
                 "Usuário Anônimo",
 
+                "ASSÉDIO MORAL",
+
                 "Hoje me senti desconfortável durante uma atividade e gostaria de relatar o ocorrido.",
 
                 "Campus II",
@@ -136,11 +168,11 @@ public class PainelNovoRelato extends JPanel {
 
         ));
 
-        painelFeed.add(Box.createVerticalStrut(15));
-
         painelFeed.add(new CardRelato(
 
                 "Usuário Anônimo",
+
+                "DISCRIMINAÇÃO",
 
                 "Presenciei uma situação que considero inadequada e acredito que deve ser registrada.",
 
@@ -155,6 +187,8 @@ public class PainelNovoRelato extends JPanel {
         painelFeed.add(new CardRelato(
 
                 "Usuário Anônimo",
+
+                "OUTRO",
 
                 "Gostaria de compartilhar uma experiência para que outras pessoas saibam que não estão sozinhas.",
 
@@ -190,9 +224,13 @@ public class PainelNovoRelato extends JPanel {
 
         }
 
+        String tipo = cbTipoRelato.getSelectedItem().toString();
+
         CardRelato novoRelato = new CardRelato(
 
                 "Você",
+
+                tipo,
 
                 texto,
 

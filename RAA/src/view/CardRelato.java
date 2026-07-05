@@ -7,6 +7,7 @@ import java.awt.*;
 public class CardRelato extends JPanel {
 
     public CardRelato(String autor,
+                      String tipo,
                       String relato,
                       String campus,
                       String horario) {
@@ -23,19 +24,32 @@ public class CardRelato extends JPanel {
 
         ));
 
-        //------------------------
-        // Cabeçalho
-        //------------------------
+
+        JPanel cabecalho = new JPanel();
+
+        cabecalho.setLayout(new BoxLayout(cabecalho, BoxLayout.Y_AXIS));
+
+        cabecalho.setOpaque(false);
 
         JLabel lblAutor = new JLabel("👤 " + autor);
 
         lblAutor.setFont(new Font("Arial", Font.BOLD, 16));
 
-        add(lblAutor, BorderLayout.NORTH);
+        JLabel lblTipo = new JLabel("🏷 " + tipo);
 
-        //------------------------
-        // Texto
-        //------------------------
+        lblTipo.setFont(new Font("Arial", Font.BOLD, 13));
+
+        lblTipo.setForeground(new Color(75,40,130));
+
+        cabecalho.add(lblAutor);
+
+        cabecalho.add(Box.createVerticalStrut(5));
+
+        cabecalho.add(lblTipo);
+
+        add(cabecalho, BorderLayout.NORTH);
+
+
 
         JTextArea area = new JTextArea(relato);
 
@@ -53,9 +67,6 @@ public class CardRelato extends JPanel {
 
         add(area, BorderLayout.CENTER);
 
-        //------------------------
-        // Rodapé
-        //------------------------
 
         JPanel rodape = new JPanel(new BorderLayout());
 
