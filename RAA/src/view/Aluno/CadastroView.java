@@ -15,22 +15,15 @@ import java.awt.*;
 
 public class CadastroView extends JFrame {
 
-    //=========================
-    // Controllers
-    //=========================
 
     private final UsuarioController usuarioController = new UsuarioController();
     private final CampusController campusController = new CampusController();
     private final CidadeController cidadeController = new CidadeController();
     private final CursoController cursoController = new CursoController();
 
-    //=========================
-    // Componentes
-    //=========================
 
     private JTextField txtNome;
     private JTextField txtEmail;
-    private JTextField txtTelefone;
     private JTextField txtNascimento;
 
     private JPasswordField txtSenha;
@@ -54,10 +47,6 @@ public class CadastroView extends JFrame {
         montarTela();
         configurarEventos();
 
-        // Ative quando o banco estiver pronto
-        // carregarCampi();
-        // carregarCidades();
-        // carregarCursos();
 
     }
 
@@ -79,7 +68,6 @@ public class CadastroView extends JFrame {
 
         txtNome = new JTextField();
         txtEmail = new JTextField();
-        txtTelefone = new JTextField();
         txtNascimento = new JTextField();
 
         txtSenha = new JPasswordField();
@@ -136,9 +124,6 @@ public class CadastroView extends JFrame {
 
         painel.add(titulo,gbc);
 
-        //-------------------------
-        // Nome
-        //-------------------------
 
         gbc.gridy++;
         gbc.gridwidth = 2;
@@ -186,26 +171,14 @@ public class CadastroView extends JFrame {
 
         painel.add(txtConfirmarSenha,gbc);
 
-        //-------------------------
-        // Telefone
-        //-------------------------
 
         gbc.gridy++;
 
         gbc.gridx = 0;
         gbc.gridwidth = 2;
 
-        painel.add(new JLabel("Telefone"),gbc);
-
         gbc.gridy++;
 
-        painel.add(txtTelefone,gbc);
-
-        //-------------------------
-        // Continua na Parte 2...
-        //-------------------------
-        // Data de nascimento
-        //-------------------------
 
         gbc.gridy++;
         gbc.gridwidth = 1;
@@ -307,7 +280,6 @@ public class CadastroView extends JFrame {
 
             String nome = txtNome.getText().trim();
             String email = txtEmail.getText().trim();
-            String telefone = txtTelefone.getText().trim();
             String nascimento = txtNascimento.getText().trim();
 
             String senha = new String(txtSenha.getPassword());
@@ -315,7 +287,6 @@ public class CadastroView extends JFrame {
 
             if (nome.isEmpty() ||
                     email.isEmpty() ||
-                    telefone.isEmpty() ||
                     nascimento.isEmpty() ||
                     senha.isEmpty() ||
                     confirmar.isEmpty()) {
