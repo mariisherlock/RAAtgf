@@ -108,9 +108,6 @@ public class CadastroView extends JFrame {
 
         gbc.weightx = 1;
 
-        //-------------------------
-        // Título
-        //-------------------------
 
         gbc.gridx = 0;
         gbc.gridy = 0;
@@ -134,9 +131,6 @@ public class CadastroView extends JFrame {
 
         painel.add(txtNome,gbc);
 
-        //-------------------------
-        // Email
-        //-------------------------
 
         gbc.gridy++;
 
@@ -146,9 +140,7 @@ public class CadastroView extends JFrame {
 
         painel.add(txtEmail,gbc);
 
-        //-------------------------
-        // Senha
-        //-------------------------
+
 
         gbc.gridy++;
         gbc.gridwidth = 1;
@@ -197,10 +189,6 @@ public class CadastroView extends JFrame {
         gbc.gridx = 1;
         painel.add(cbCidade, gbc);
 
-        //-------------------------
-        // Campus
-        //-------------------------
-
         gbc.gridy++;
 
         gbc.gridx = 0;
@@ -217,9 +205,6 @@ public class CadastroView extends JFrame {
         gbc.gridx = 1;
         painel.add(cbCurso, gbc);
 
-        //-------------------------
-        // Tipo de usuário
-        //-------------------------
 
         gbc.gridy++;
 
@@ -238,9 +223,6 @@ public class CadastroView extends JFrame {
 
         painel.add(painelTipo, gbc);
 
-        //-------------------------
-        // Botões
-        //-------------------------
 
         gbc.gridy++;
 
@@ -260,9 +242,7 @@ public class CadastroView extends JFrame {
 
     private void configurarEventos() {
 
-        //=========================
-        // Botão Voltar
-        //=========================
+
 
         btnVoltar.addActionListener(e -> {
 
@@ -272,9 +252,6 @@ public class CadastroView extends JFrame {
 
         });
 
-        //=========================
-        // Botão Cadastrar
-        //=========================
 
         btnCadastrar.addActionListener(e -> {
 
@@ -292,7 +269,7 @@ public class CadastroView extends JFrame {
                     confirmar.isEmpty()) {
 
                 JOptionPane.showMessageDialog(this,
-                        "Preencha todos os campos.");
+                        "Preencha os campos obrigatorios.");
 
                 return;
             }

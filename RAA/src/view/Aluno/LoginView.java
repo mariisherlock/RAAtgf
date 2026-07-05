@@ -10,15 +10,9 @@ import java.awt.*;
 
 public class LoginView extends JFrame {
 
-    //=========================
-    // Controller
-    //=========================
 
     private final UsuarioController controller = new UsuarioController();
 
-    //=========================
-    // Componentes
-    //=========================
 
     private JTextField txtEmail;
     private JPasswordField txtSenha;
@@ -26,9 +20,7 @@ public class LoginView extends JFrame {
     private JButton btnEntrar;
     private JButton btnCriarConta;
 
-    //=========================
-    // Construtor
-    //=========================
+
 
     public LoginView() {
 
@@ -39,9 +31,7 @@ public class LoginView extends JFrame {
 
     }
 
-    //=========================
-    // Configuração da janela
-    //=========================
+
 
     private void configurarJanela() {
 
@@ -57,9 +47,7 @@ public class LoginView extends JFrame {
 
     }
 
-    //=========================
-    // Componentes
-    //=========================
+
 
     private void inicializarComponentes() {
 
@@ -76,17 +64,12 @@ public class LoginView extends JFrame {
 
     }
 
-    //=========================
-    // Tela
-    //=========================
+
 
     private void montarTela() {
 
         setLayout(new BorderLayout());
 
-        //-------------------------
-        // Painel Esquerdo
-        //-------------------------
 
         JPanel painelEsquerdo = new JPanel();
 
@@ -104,9 +87,7 @@ public class LoginView extends JFrame {
 
         painelEsquerdo.add(lblRAA);
 
-        //-------------------------
-        // Painel Direito
-        //-------------------------
+
 
         JPanel painelDireito = new JPanel();
 
@@ -143,9 +124,6 @@ public class LoginView extends JFrame {
 
         painelDireito.add(Box.createVerticalStrut(20), gbc);
 
-        //-------------------------
-        // Email
-        //-------------------------
 
         gbc.gridy++;
 
@@ -159,9 +137,7 @@ public class LoginView extends JFrame {
 
         painelDireito.add(txtEmail, gbc);
 
-        //-------------------------
-        // Senha
-        //-------------------------
+
 
         gbc.gridy++;
 
@@ -175,9 +151,6 @@ public class LoginView extends JFrame {
 
         painelDireito.add(txtSenha, gbc);
 
-        //-------------------------
-        // Botão Entrar
-        //-------------------------
 
         gbc.gridy++;
 
@@ -185,9 +158,6 @@ public class LoginView extends JFrame {
 
         painelDireito.add(btnEntrar, gbc);
 
-        //-------------------------
-        // Criar Conta
-        //-------------------------
 
         gbc.gridy++;
 
@@ -211,13 +181,6 @@ public class LoginView extends JFrame {
 
     }
 
-    //=========================
-    // Eventos
-    //=========================
-
-    //=========================
-// Eventos
-//=========================
 
     private void configurarEventos() {
 

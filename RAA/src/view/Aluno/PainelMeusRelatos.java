@@ -45,8 +45,8 @@ public class PainelMeusRelatos extends JPanel {
 
         area.setText(
                 "Nenhum relato encontrado.\n\n" +
-                        "Quando conectarmos ao banco,\n" +
-                        "seus relatos aparecerão aqui."
+                        "Estamos carregando,\n" +
+                        "seus relatos."
         );
 
         JScrollPane scroll = new JScrollPane(area);
