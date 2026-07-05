@@ -10,67 +10,218 @@ public class PainelNovoRelato extends JPanel {
 
     private JButton btnPublicar;
 
+    private JPanel painelFeed;
+
     public PainelNovoRelato() {
 
         setLayout(new BorderLayout());
 
-        setBackground(new Color(75, 40, 130));
+        setBackground(new Color(245, 245, 250));
 
-        montarTela();
+        criarTopo();
+
+        criarFeed();
+
+        configurarEventos();
 
     }
 
-    private void montarTela() {
+    private void criarTopo(){
+
+        JPanel topo = new JPanel();
+
+        topo.setLayout(new BoxLayout(topo,BoxLayout.Y_AXIS));
+
+        topo.setBackground(Color.WHITE);
+
+        topo.setBorder(new EmptyBorder(20,30,20,30));
 
         JLabel titulo = new JLabel("Sistema de Apoio");
 
-        titulo.setForeground(Color.WHITE);
+        titulo.setFont(new Font("Arial",Font.BOLD,28));
 
-        titulo.setFont(new Font("Arial", Font.BOLD, 30));
+        titulo.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        titulo.setHorizontalAlignment(SwingConstants.CENTER);
+        topo.add(titulo);
 
-        titulo.setBorder(new EmptyBorder(20, 0, 20, 0));
+        topo.add(Box.createVerticalStrut(20));
 
-        add(titulo, BorderLayout.NORTH);
+        JLabel subtitulo = new JLabel("Compartilhe seu relato");
 
-        JPanel centro = new JPanel(new BorderLayout());
+        subtitulo.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        centro.setOpaque(false);
+        subtitulo.setFont(new Font("Arial",Font.PLAIN,18));
 
-        centro.setBorder(new EmptyBorder(20, 30, 30, 30));
+        topo.add(subtitulo);
 
-        txtRelato = new JTextArea();
+        topo.add(Box.createVerticalStrut(20));
 
-        txtRelato.setFont(new Font("Arial", Font.PLAIN, 16));
+        txtRelato = new JTextArea(5,40);
 
         txtRelato.setLineWrap(true);
 
         txtRelato.setWrapStyleWord(true);
 
-        txtRelato.setBorder(
-                BorderFactory.createTitledBorder("Digite seu relato...")
-        );
+        txtRelato.setFont(new Font("Arial",Font.PLAIN,16));
 
-        JScrollPane scroll = new JScrollPane(txtRelato);
+        JScrollPane scrollTexto = new JScrollPane(txtRelato);
 
-        centro.add(scroll, BorderLayout.CENTER);
+        topo.add(scrollTexto);
+
+        topo.add(Box.createVerticalStrut(15));
 
         btnPublicar = new JButton("Publicar Relato");
 
-        btnPublicar.setPreferredSize(new Dimension(220, 45));
+        btnPublicar.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        JPanel painelBotao = new JPanel();
+        btnPublicar.setBackground(new Color(75,40,130));
 
-        painelBotao.setOpaque(false);
+        btnPublicar.setForeground(Color.WHITE);
 
-        painelBotao.add(btnPublicar);
+        btnPublicar.setFocusPainted(false);
 
-        centro.add(painelBotao, BorderLayout.SOUTH);
+        topo.add(btnPublicar);
 
-        add(centro, BorderLayout.CENTER);
+        add(topo,BorderLayout.NORTH);
 
     }
+
+    private void criarFeed(){
+
+        JPanel container = new JPanel(new BorderLayout());
+
+        container.setBackground(new Color(245,245,250));
+
+        JLabel tituloFeed = new JLabel("Relatos Recentes");
+
+        tituloFeed.setFont(new Font("Arial", Font.BOLD, 24));
+
+        tituloFeed.setBorder(new EmptyBorder(20,25,10,0));
+
+        container.add(tituloFeed, BorderLayout.NORTH);
+
+        painelFeed = new JPanel();
+
+        painelFeed.setLayout(new BoxLayout(painelFeed, BoxLayout.Y_AXIS));
+
+        painelFeed.setBackground(new Color(245,245,250));
+
+        painelFeed.setBorder(new EmptyBorder(10,20,20,20));
+
+        adicionarRelatosIniciais();
+
+        JScrollPane scroll = new JScrollPane(painelFeed);
+
+        scroll.setBorder(null);
+
+        scroll.getVerticalScrollBar().setUnitIncrement(16);
+
+        container.add(scroll, BorderLayout.CENTER);
+
+        add(container, BorderLayout.CENTER);
+
+    }
+
+    private void adicionarRelatosIniciais(){
+
+        painelFeed.add(new CardRelato(
+
+                "Usuário Anônimo",
+
+                "Hoje me senti desconfortável durante uma atividade e gostaria de relatar o ocorrido.",
+
+                "Campus II",
+
+                "Há 2 horas"
+
+        ));
+
+        painelFeed.add(Box.createVerticalStrut(15));
+
+        painelFeed.add(new CardRelato(
+
+                "Usuário Anônimo",
+
+                "Presenciei uma situação que considero inadequada e acredito que deve ser registrada.",
+
+                "Campus I",
+
+                "Ontem"
+
+        ));
+
+        painelFeed.add(Box.createVerticalStrut(15));
+
+        painelFeed.add(new CardRelato(
+
+                "Usuário Anônimo",
+
+                "Gostaria de compartilhar uma experiência para que outras pessoas saibam que não estão sozinhas.",
+
+                "Campus III",
+
+                "2 dias atrás"
+
+        ));
+
+    }
+
+    private void configurarEventos(){
+
+        btnPublicar.addActionListener(e -> publicarRelato());
+
+    }
+
+    private void publicarRelato(){
+
+        String texto = txtRelato.getText().trim();
+
+        if(texto.isEmpty()){
+
+            JOptionPane.showMessageDialog(
+
+                    this,
+
+                    "Digite um relato antes de publicar."
+
+            );
+
+            return;
+
+        }
+
+        CardRelato novoRelato = new CardRelato(
+
+                "Você",
+
+                texto,
+
+                "Campus II",
+
+                "Agora"
+
+        );
+
+        painelFeed.add(novoRelato,0);
+
+        painelFeed.add(Box.createVerticalStrut(15),1);
+
+        painelFeed.revalidate();
+
+        painelFeed.repaint();
+
+        txtRelato.setText("");
+
+        JOptionPane.showMessageDialog(
+
+                this,
+
+                "Relato publicado com sucesso!"
+
+        );
+
+    }
+
 
 
 }
