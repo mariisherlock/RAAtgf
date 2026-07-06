@@ -1,5 +1,10 @@
 package view.Adm;
 
+import controller.UsuarioController;
+import controller.UsuarioController;
+import model.Usuario;
+
+import java.util.List;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
@@ -10,6 +15,8 @@ public class PainelUsuarios extends JPanel {
     private DefaultTableModel modelTodos, modelPendentes;
     private JTable tableTodos, tablePendentes;
     private Color roxoSistema = new Color(75, 40, 130);
+    private UsuarioController controller = new UsuarioController();
+    private List<Usuario> usuarios;
 
     public PainelUsuarios(Component pai) {
         setLayout(new BorderLayout());
@@ -34,6 +41,7 @@ public class PainelUsuarios extends JPanel {
         abas.addTab("Aguardando Aprovação", abaPendentes);
 
         add(abas, BorderLayout.CENTER);
+        carregarUsuarios();
     }
 
     private JPanel criarAbaTodos() {
@@ -78,13 +86,65 @@ public class PainelUsuarios extends JPanel {
 
 
         btnAprovar.addActionListener(e -> {
+
             int row = tablePendentes.getSelectedRow();
-            if (row != -1) {
-                JOptionPane.showMessageDialog(pai, "Usuário aprovado com sucesso!");
+
+            if (row == -1) {
+
+                JOptionPane.showMessageDialog(
+                        pai,
+                        "Selecione um usuário."
+                );
+
+                return;
 
             }
+
+            int id = (int) tablePendentes.getValueAt(row, 0);
+
+            controller.aprovarUsuario(id);
+
+            carregarUsuarios();
+
+            JOptionPane.showMessageDialog(
+                    pai,
+                    "Usuário aprovado com sucesso!"
+            );
+
         });
 
         return painel;
     }
+
+    private void carregarUsuarios() {
+
+        usuarios = controller.listarUsuarios();
+
+        modelTodos.setRowCount(0);
+        modelPendentes.setRowCount(0);
+
+        for (Usuario u : usuarios) {
+
+            modelTodos.addRow(new Object[]{
+                    u.getId(),
+                    u.getEmail(),
+                    u.getTipo(),
+                    u.getStatus()
+            });
+
+            if (u.getStatus().equals("PENDENTE")) {
+
+                modelPendentes.addRow(new Object[]{
+                        u.getId(),
+                        u.getEmail(),
+                        u.getTipo()
+                });
+
+            }
+
+        }
+
+    }
+
+
 }

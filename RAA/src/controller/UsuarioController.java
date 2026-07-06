@@ -26,6 +26,15 @@ public class UsuarioController {
             return null;
         }
         Usuario usuario = usuarioDao.autenticar(email, senha);
+        if (usuario != null && usuario.getStatus().equals("PENDENTE")) {
+
+            JOptionPane.showMessageDialog(
+                    null,
+                    "Seu cadastro ainda está aguardando aprovação do administrador."
+            );
+
+            return null;
+        }
         if (usuario == null) {
             JOptionPane.showMessageDialog(
                     null,
@@ -80,6 +89,12 @@ public class UsuarioController {
         if (confirmacao == JOptionPane.YES_OPTION) {
             usuarioDao.deletar(id);
         }
+    }
+
+    public void aprovarUsuario(int id){
+
+        usuarioDao.aprovarUsuario(id);
+
     }
 
     public List<Usuario> listarUsuarios() {

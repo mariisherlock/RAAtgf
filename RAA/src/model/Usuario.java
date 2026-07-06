@@ -6,6 +6,7 @@ public class Usuario extends Pessoa {
     private String email;
     private String senha;
     private String tipo;
+    private String status;
 
     public Usuario() {
     }
@@ -50,6 +51,14 @@ public class Usuario extends Pessoa {
 
     public void setTipo(String tipo) {
         this.tipo = tipo;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
 }

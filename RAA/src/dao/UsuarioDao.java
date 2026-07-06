@@ -21,7 +21,8 @@ public class UsuarioDao {
                 p.nome,
                 u.email,
                 u.senha,
-                u.tipo
+                u.tipo,
+                u.status
             FROM usuario u
             INNER JOIN pessoa p
                 ON p.id = u.pessoa_id
@@ -41,6 +42,7 @@ public class UsuarioDao {
                 usuario.setEmail(rs.getString("email"));
                 usuario.setSenha(rs.getString("senha"));
                 usuario.setTipo(rs.getString("tipo"));
+                usuario.setStatus(rs.getString("status"));
             }
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(
@@ -60,7 +62,7 @@ public class UsuarioDao {
                 "INSERT INTO pessoa(nome) VALUES(?)";
 
         String sqlUsuario =
-                "INSERT INTO usuario(pessoa_id,email,senha,tipo) VALUES(?,?,?,?)";
+                "INSERT INTO usuario(pessoa_id,email,senha,tipo,status) VALUES(?,?,?,?,?)";
 
         String sqlAluno =
                 "INSERT INTO aluno(usuario_id,data_nascimento,cidade_id,curso_id) VALUES(?,?,?,?)";
@@ -112,6 +114,7 @@ public class UsuarioDao {
                 ps.setString(3, usuario.getSenha());
 
                 ps.setString(4, usuario.getTipo());
+                ps.setString(5, "PENDENTE");
 
                 ps.executeUpdate();
 
@@ -232,27 +235,74 @@ public class UsuarioDao {
     }
 
     public List<Usuario> listarTodos() {
+
         List<Usuario> usuarios = new ArrayList<>();
-        String sql = "SELECT * FROM usuario ORDER BY nome";
+
+        String sql = """
+        SELECT
+            p.id,
+            p.nome,
+            u.email,
+            u.senha,
+            u.tipo,
+            u.status
+        FROM usuario u
+        INNER JOIN pessoa p
+            ON u.pessoa_id = p.id
+        ORDER BY p.nome
+        """;
 
         try (Connection conn = Conexao.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql);
              ResultSet rs = stmt.executeQuery()) {
 
             while (rs.next()) {
+
                 Usuario usuario = new Usuario();
+
                 usuario.setId(rs.getInt("id"));
                 usuario.setNome(rs.getString("nome"));
                 usuario.setEmail(rs.getString("email"));
                 usuario.setSenha(rs.getString("senha"));
+                usuario.setTipo(rs.getString("tipo"));
+                usuario.setStatus(rs.getString("status"));
 
                 usuarios.add(usuario);
+
             }
 
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Erro ao listar usuários: " + e.getMessage());
+
+            JOptionPane.showMessageDialog(
+                    null,
+                    "Erro ao listar usuários: " + e.getMessage()
+            );
+
         }
 
         return usuarios;
+
+    }
+
+    public void aprovarUsuario(int id) {
+
+        String sql = "UPDATE usuario SET status='APROVADO' WHERE pessoa_id=?";
+
+        try(Connection conn = Conexao.getConnection();
+            PreparedStatement ps = conn.prepareStatement(sql)){
+
+            ps.setInt(1, id);
+
+            ps.executeUpdate();
+
+        }catch(Exception e){
+
+            JOptionPane.showMessageDialog(
+                    null,
+                    e.getMessage()
+            );
+
+        }
+
     }
 }
