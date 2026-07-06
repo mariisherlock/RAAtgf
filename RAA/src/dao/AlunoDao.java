@@ -162,4 +162,39 @@ public class AlunoDao {
         }
         return alunos;
     }
+
+    public Aluno buscarPorUsuarioId(int usuarioId){
+
+        String sql = """
+            SELECT *
+            FROM aluno
+            WHERE usuario_id = ?
+            """;
+
+        try(Connection conn = Conexao.getConnection();
+            PreparedStatement ps = conn.prepareStatement(sql)){
+
+            ps.setInt(1, usuarioId);
+
+            ResultSet rs = ps.executeQuery();
+
+            if(rs.next()){
+
+                Aluno aluno = new Aluno();
+
+                aluno.setId(rs.getInt("usuario_id"));
+
+                return aluno;
+
+            }
+
+        }catch(Exception e){
+
+            e.printStackTrace();
+
+        }
+
+        return null;
+
+    }
 }

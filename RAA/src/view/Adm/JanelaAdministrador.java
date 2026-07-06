@@ -1,5 +1,7 @@
 package view.Adm;
 
+import view.Aluno.LoginView;
+
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
@@ -9,7 +11,7 @@ public class JanelaAdministrador extends JFrame {
     private JPanel centroPanel;
     private Color roxoSistema = new Color(75, 40, 130);
 
-    private JButton btnInicio, btnRelatos, btnTipos, btnUsuarios, btnVoluntarios, btnConfig;
+    private JButton btnInicio, btnRelatos, btnTipos, btnUsuarios, btnVoluntarios, btnConfig, btnSair;
 
     public JanelaAdministrador() {
         setTitle("Dashboard - Proteção e Acolhimento");
@@ -32,10 +34,11 @@ public class JanelaAdministrador extends JFrame {
         btnUsuarios = new JButton("Usuários");
         btnVoluntarios = new JButton("Voluntários");
         btnConfig = new JButton("Configurações");
+        btnSair = new JButton("Sair");
 
 
 
-        JButton[] botoesMenu = {btnInicio, btnRelatos, btnTipos, btnUsuarios, btnVoluntarios, btnConfig};
+        JButton[] botoesMenu = {btnInicio, btnRelatos, btnTipos, btnUsuarios, btnVoluntarios, btnConfig, btnSair};
 
         for (JButton btn : botoesMenu) {
             btn.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -66,10 +69,32 @@ public class JanelaAdministrador extends JFrame {
         btnVoluntarios.addActionListener(e -> trocarTela(new PainelVoluntarios(this), btnVoluntarios));
         btnConfig.addActionListener(e -> trocarTela(new PainelConfiguracoes(), btnConfig));
 
+        btnSair.addActionListener(e -> {
+
+            int resposta = JOptionPane.showConfirmDialog(
+
+                    this,
+
+                    "Deseja realmente sair da conta?",
+
+                    "Sair",
+
+                    JOptionPane.YES_NO_OPTION
+
+            );
+
+            if(resposta == JOptionPane.YES_OPTION){
+
+                dispose();
+
+                new LoginView().setVisible(true);
+
+            }
+
+        });
+
         trocarTela(new PainelTelaInicial(this), btnInicio);
 
-        btnInicio.addActionListener(e -> trocarTela(new JPanel(), btnInicio));
-        btnConfig.addActionListener(e -> trocarTela(new JPanel(), btnConfig));
 
         add(sidebar, BorderLayout.WEST);
         add(centroPanel, BorderLayout.CENTER);

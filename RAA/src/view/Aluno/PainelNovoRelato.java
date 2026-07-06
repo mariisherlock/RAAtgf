@@ -1,12 +1,25 @@
 package view.Aluno;
 
+import controller.RelatoController;
+import model.*;
+
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
+import java.time.LocalDate;
 
 public class PainelNovoRelato extends JPanel {
 
+    private Usuario usuario;
+
     private JTextArea txtRelato;
+
+    private JTextField txtTitulo;
+    private JTextField txtLocal;
+
+    private JCheckBox chkAnonimo;
+
+    private RelatoController controller = new RelatoController();
 
     private JButton btnPublicar;
 
@@ -14,11 +27,13 @@ public class PainelNovoRelato extends JPanel {
 
     private JComboBox<String> cbTipoRelato;
 
-    public PainelNovoRelato() {
+    public PainelNovoRelato(Usuario usuario) {
+
+        this.usuario = usuario;
 
         setLayout(new BorderLayout());
 
-        setBackground(new Color(245, 245, 250));
+        setBackground(new Color(245,245,250));
 
         criarTopo();
 
@@ -58,6 +73,30 @@ public class PainelNovoRelato extends JPanel {
 
         topo.add(Box.createVerticalStrut(20));
 
+        JLabel lblTitulo = new JLabel("Título");
+
+        lblTitulo.setFont(new Font("Arial", Font.BOLD, 15));
+
+        topo.add(lblTitulo);
+
+        topo.add(Box.createVerticalStrut(8));
+
+        txtTitulo = new JTextField();
+
+        txtTitulo.setMaximumSize(new Dimension(Integer.MAX_VALUE,35));
+
+        topo.add(txtTitulo);
+
+        topo.add(Box.createVerticalStrut(15));
+
+        JLabel lblDescricao = new JLabel("Descrição");
+
+        lblDescricao.setFont(new Font("Arial", Font.BOLD, 15));
+
+        topo.add(lblDescricao);
+
+        topo.add(Box.createVerticalStrut(8));
+
         txtRelato = new JTextArea(5,40);
 
         JLabel lblTipo = new JLabel("Tipo do Relato");
@@ -87,6 +126,30 @@ public class PainelNovoRelato extends JPanel {
         topo.add(cbTipoRelato);
 
         topo.add(Box.createVerticalStrut(20));
+
+        JLabel lblLocal = new JLabel("Local");
+
+        chkAnonimo = new JCheckBox("Publicar anonimamente");
+
+        chkAnonimo.setBackground(Color.WHITE);
+
+        topo.add(chkAnonimo);
+
+        topo.add(Box.createVerticalStrut(15));
+
+        lblLocal.setFont(new Font("Arial", Font.BOLD, 15));
+
+        topo.add(lblLocal);
+
+        topo.add(Box.createVerticalStrut(8));
+
+        txtLocal = new JTextField();
+
+        txtLocal.setMaximumSize(new Dimension(Integer.MAX_VALUE,35));
+
+        topo.add(txtLocal);
+
+        topo.add(Box.createVerticalStrut(15));
 
         txtRelato.setLineWrap(true);
 
@@ -138,7 +201,7 @@ public class PainelNovoRelato extends JPanel {
 
         painelFeed.setBorder(new EmptyBorder(10,20,20,20));
 
-        adicionarRelatosIniciais();
+        carregarFeed();
 
         JScrollPane scroll = new JScrollPane(painelFeed);
 
@@ -152,53 +215,7 @@ public class PainelNovoRelato extends JPanel {
 
     }
 
-    private void adicionarRelatosIniciais(){
 
-        painelFeed.add(new CardRelato(
-
-                "Usuário Anônimo",
-
-                "ASSÉDIO MORAL",
-
-                "Hoje me senti desconfortável durante uma atividade e gostaria de relatar o ocorrido.",
-
-                "Campus II",
-
-                "Há 2 horas"
-
-        ));
-
-        painelFeed.add(new CardRelato(
-
-                "Usuário Anônimo",
-
-                "DISCRIMINAÇÃO",
-
-                "Presenciei uma situação que considero inadequada e acredito que deve ser registrada.",
-
-                "Campus I",
-
-                "Ontem"
-
-        ));
-
-        painelFeed.add(Box.createVerticalStrut(15));
-
-        painelFeed.add(new CardRelato(
-
-                "Usuário Anônimo",
-
-                "OUTRO",
-
-                "Gostaria de compartilhar uma experiência para que outras pessoas saibam que não estão sozinhas.",
-
-                "Campus III",
-
-                "2 dias atrás"
-
-        ));
-
-    }
 
     private void configurarEventos(){
 
@@ -206,60 +223,106 @@ public class PainelNovoRelato extends JPanel {
 
     }
 
-    private void publicarRelato(){
+    private void publicarRelato() {
 
-        String texto = txtRelato.getText().trim();
+        String titulo = txtTitulo.getText().trim();
+        String descricao = txtRelato.getText().trim();
+        String local = txtLocal.getText().trim();
 
-        if(texto.isEmpty()){
+        if (titulo.isEmpty() || descricao.isEmpty() || local.isEmpty()) {
 
             JOptionPane.showMessageDialog(
-
                     this,
-
-                    "Digite um relato antes de publicar."
-
+                    "Preencha todos os campos."
             );
 
             return;
+        }
+
+        String categoria = cbTipoRelato.getSelectedItem().toString()
+                .replace("ASSÉDIO", "ASSEDIO")
+                .replace("DISCRIMINAÇÃO", "DISCRIMINACAO")
+                .replace("OPRESSÃO", "OPRESSAO")
+                .replace(" ", "_");
+
+        Relato relato = new Relato();
+
+        relato.setTitulo(titulo);
+        relato.setDescricao(descricao);
+        relato.setLocal(local);
+        relato.setUsuarioAnonimo(chkAnonimo.isSelected());
+
+        relato.setCategoria(
+                CategoriaRelato.valueOf(categoria)
+        );
+
+        relato.setStatus(StatusRelato.PENDENTE);
+
+        relato.setData(LocalDate.now());
+
+        GerenciadorRelatos.relatos.add(relato);
+        carregarFeed();
+
+        txtTitulo.setText("");
+        txtLocal.setText("");
+        txtRelato.setText("");
+        chkAnonimo.setSelected(false);
+
+        JOptionPane.showMessageDialog(
+                this,
+                "Relato enviado para análise do administrador!"
+        );
+
+    }
+
+    private void carregarFeed() {
+
+        painelFeed.removeAll();
+
+        for (Relato relato : GerenciadorRelatos.relatos) {
+
+            if (relato.getStatus() == StatusRelato.APROVADO) {
+
+                String autor = relato.isUsuarioAnonimo()
+                        ? "Usuário Anônimo"
+                        : "Autor";
+
+                painelFeed.add(new CardRelato(
+
+                        autor,
+
+                        relato.getCategoria().name().replace("_", " "),
+
+                        relato.getDescricao(),
+
+                        relato.getLocal(),
+
+                        relato.getData().toString()
+
+                ));
+
+                painelFeed.add(Box.createVerticalStrut(15));
+
+            }
 
         }
 
-        String tipo = cbTipoRelato.getSelectedItem().toString();
+        if (painelFeed.getComponentCount() == 0) {
 
-        CardRelato novoRelato = new CardRelato(
+            JLabel vazio = new JLabel("Nenhum relato aprovado até o momento.");
 
-                "Você",
+            vazio.setFont(new Font("Arial", Font.PLAIN, 16));
 
-                tipo,
+            vazio.setBorder(new EmptyBorder(20,20,20,20));
 
-                texto,
+            painelFeed.add(vazio);
 
-                "Campus II",
-
-                "Agora"
-
-        );
-
-        painelFeed.add(novoRelato,0);
-
-        painelFeed.add(Box.createVerticalStrut(15),1);
+        }
 
         painelFeed.revalidate();
 
         painelFeed.repaint();
 
-        txtRelato.setText("");
-
-        JOptionPane.showMessageDialog(
-
-                this,
-
-                "Relato publicado com sucesso!"
-
-        );
-
     }
-
-
 
 }

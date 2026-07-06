@@ -53,9 +53,15 @@ public class RelatoController {
         dao.deletarRelato(id);
     }
 
-    // --- NOVA FUNÇÃO DE MODERAÇÃO ADICIONADA ---
+
     public void analisarRelato(int id, String novoStatus) {
         // Envia a ordem direto para o DAO processar a atualização no banco de dados
         dao.analisarRelato(id, novoStatus.toUpperCase());
+    }
+
+    public List<Relato> listarRelatosDoAluno(int idAutor){
+
+        return dao.listarRelatosDoAluno(idAutor);
+
     }
 }

@@ -302,7 +302,10 @@ public class CadastroView extends JFrame {
                         nome,
                         email,
                         senha,
-                        tipo
+                        tipo,
+                        nascimento,
+                        (Cidade) cbCidade.getSelectedItem(),
+                        (Curso) cbCurso.getSelectedItem()
                 );
 
                 JOptionPane.showMessageDialog(

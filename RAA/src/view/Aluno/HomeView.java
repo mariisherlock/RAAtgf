@@ -41,7 +41,7 @@ public class HomeView extends JFrame {
 
         configurarEventos();
 
-        trocarTela(new PainelNovoRelato(), btnNovoRelato);
+        trocarTela(new PainelNovoRelato(usuario), btnNovoRelato);
 
     }
 
@@ -179,7 +179,7 @@ public class HomeView extends JFrame {
     private void configurarEventos(){
 
         btnNovoRelato.addActionListener(e ->
-                trocarTela(new PainelNovoRelato(), btnNovoRelato));
+                trocarTela(new PainelNovoRelato(usuario), btnNovoRelato));
 
         btnPerfil.addActionListener(e ->
                 trocarTela(new PainelPerfil(usuario), btnPerfil));

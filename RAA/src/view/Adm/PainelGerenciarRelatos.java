@@ -1,7 +1,9 @@
 package view.Adm;
 
 import controller.RelatoController;
+import model.GerenciadorRelatos;
 import model.Relato;
+import model.StatusRelato;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -151,7 +153,13 @@ public class PainelGerenciarRelatos extends JPanel {
             int idRelato = (int) table.getValueAt(líneaSelecionada, 0);
             int resposta = JOptionPane.showConfirmDialog(pai, "Deseja aprovar o relato #" + idRelato + "?", "Aprovar Relato", JOptionPane.YES_NO_OPTION);
             if (resposta == JOptionPane.YES_OPTION) {
-                relatoController.analisarRelato(idRelato, "APROVADO");
+                Relato relato = encontrarRelatoPorId(idRelato);
+
+                if(relato != null){
+
+                    relato.setStatus(StatusRelato.APROVADO);
+
+                }
                 atualizarTabelaCompleta();
                 JOptionPane.showMessageDialog(pai, "Relato aprovado com sucesso!");
             }
@@ -174,8 +182,11 @@ public class PainelGerenciarRelatos extends JPanel {
     }
 
     private void atualizarTabelaCompleta() {
-        todosOsRelatos = relatoController.mostrarRelatos();
+
+        todosOsRelatos = GerenciadorRelatos.relatos;
+
         preencherTabela(todosOsRelatos);
+
     }
 
     private void preencherTabela(List<Relato> lista) {

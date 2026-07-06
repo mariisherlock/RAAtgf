@@ -142,4 +142,58 @@ public class RelatoDao {
             System.out.println("Erro ao atualizar status do relato: " + e.getMessage());
         }
     }
+
+    public List<Relato> listarRelatosDoAluno(int idAutor){
+
+        List<Relato> relatos = new ArrayList<>();
+
+        String sql = """
+            SELECT *
+            FROM relato
+            WHERE autor_id = ?
+            ORDER BY data DESC
+            """;
+
+        try(Connection conn = Conexao.getConnection();
+            PreparedStatement ps = conn.prepareStatement(sql)){
+
+            ps.setInt(1,idAutor);
+
+            ResultSet rs = ps.executeQuery();
+
+            while(rs.next()){
+
+                Relato relato = new Relato();
+
+                relato.setId(rs.getInt("id"));
+                relato.setTitulo(rs.getString("titulo"));
+                relato.setDescricao(rs.getString("descricao"));
+                relato.setLocal(rs.getString("local"));
+                relato.setData(rs.getDate("data").toLocalDate());
+
+                relato.setCategoria(
+                        CategoriaRelato.valueOf(
+                                rs.getString("categoria")
+                        )
+                );
+
+                relato.setStatus(
+                        StatusRelato.valueOf(
+                                rs.getString("status")
+                        )
+                );
+
+                relatos.add(relato);
+
+            }
+
+        }catch(Exception e){
+
+            System.out.println(e.getMessage());
+
+        }
+
+        return relatos;
+
+    }
 }

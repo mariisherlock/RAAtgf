@@ -1,6 +1,8 @@
 package controller;
 
 import dao.UsuarioDao;
+import model.Cidade;
+import model.Curso;
 import model.Usuario;
 
 import javax.swing.JOptionPane;
@@ -32,20 +34,35 @@ public class UsuarioController {
         }
         return usuario;
     }
+
     public void inserirUsuario(String nome,
                                String email,
                                String senha,
-                               String tipo) {
+                               String tipo,
+                               String dataNascimento,
+                               Cidade cidade,
+                               Curso curso) {
+
         if (nome == null || nome.isEmpty() ||
                 email == null || email.isEmpty() ||
                 senha == null || senha.isEmpty()) {
-            JOptionPane.showMessageDialog(null,
-                    "Por favor, preencha todos os campos.");
+
+            JOptionPane.showMessageDialog(
+                    null,
+                    "Por favor, preencha todos os campos."
+            );
             return;
         }
+
         Usuario usuario = new Usuario(nome, email, senha);
         usuario.setTipo(tipo);
-        usuarioDao.inserir(usuario);
+
+        usuarioDao.inserir(
+                usuario,
+                dataNascimento,
+                cidade,
+                curso
+        );
     }
 
     public void atualizarUsuario(int id, String nome, String email, String senha) {
