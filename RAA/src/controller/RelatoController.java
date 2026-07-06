@@ -55,7 +55,6 @@ public class RelatoController {
 
 
     public void analisarRelato(int id, String novoStatus) {
-        // Envia a ordem direto para o DAO processar a atualização no banco de dados
         dao.analisarRelato(id, novoStatus.toUpperCase());
     }
 
