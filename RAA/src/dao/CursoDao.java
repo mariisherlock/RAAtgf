@@ -79,12 +79,14 @@ public class CursoDao {
 
     public List<Curso> listarTodos() {
         List<Curso> cursos = new ArrayList<>();
-        // Fazemos um JOIN para buscar os dados do Curso junto com os dados do Campus dele
-        String sql = "SELECT cu.id AS id_curso, cu.nome AS nome_curso, " +
-                "ca.id AS id_campus, ca.nome AS nome_campus " +
-                "FROM curso cu " +
-                "JOIN campus ca ON cu.id_campus = ca.id " +
-                "ORDER BY cu.nome";
+        String sql =
+                "SELECT cu.id AS id_curso, " +
+                        "cu.nome AS nome_curso, " +
+                        "ca.id AS id_campus, " +
+                        "ca.nome AS nome_campus " +
+                        "FROM curso cu " +
+                        "INNER JOIN campus ca ON cu.campus_id = ca.id " +
+                        "ORDER BY cu.nome";
 
         try (Connection conn = Conexao.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql);
