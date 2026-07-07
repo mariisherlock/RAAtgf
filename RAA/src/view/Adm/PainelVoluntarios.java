@@ -113,7 +113,6 @@ public class PainelVoluntarios extends JPanel {
             if (resposta == JOptionPane.YES_OPTION) {
 
 
-                //add controler aq
 
 
                 ((DefaultTableModel) tablePendentes.getModel()).removeRow(linhaSelecionada);
@@ -137,7 +136,6 @@ public class PainelVoluntarios extends JPanel {
             if (resposta == JOptionPane.YES_OPTION) {
 
 
-                //add dps conn.deletarUsuario(idVoluntario);
 
 
                 ((DefaultTableModel) tablePendentes.getModel()).removeRow(linhaSelecionada);
