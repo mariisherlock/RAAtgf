@@ -76,3 +76,29 @@ CREATE TABLE comentario(
                            FOREIGN KEY(autor_id) REFERENCES aluno(usuario_id) ON DELETE CASCADE,
                            FOREIGN KEY(relato_id) REFERENCES relato(id) ON DELETE CASCADE
 );
+
+ALTER TABLE usuario
+ADD COLUMN status ENUM('PENDENTE','APROVADO')
+NOT NULL DEFAULT 'PENDENTE';
+
+UPDATE usuario
+SET status = 'APROVADO'
+WHERE tipo = 'ADMINISTRADOR';
+
+INSERT INTO cidade (nome)
+VALUES ('Marabá');
+
+
+INSERT INTO campus (nome)
+VALUES
+('Campus I'),
+('Campus II'),
+('Campus III');
+
+
+INSERT INTO curso (nome, campus_id)
+VALUES
+('Engenharia da Computação', 2),
+('Engenharia Mecânica', 2),
+('Engenharia Elétrica', 2),
+('Sistemas de Informação', 2);
