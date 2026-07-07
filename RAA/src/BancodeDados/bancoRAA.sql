@@ -95,7 +95,6 @@ VALUES
 ('Campus II'),
 ('Campus III');
 
-
 INSERT INTO curso (nome, campus_id)
 VALUES
 ('Engenharia da Computação', 2),
